@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList, Alert, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Alert, Image } from 'react-native';
 
 export default function App() {
   const [keyword, setKeyword] = useState('');
@@ -18,15 +18,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={{ fontSize: 18, width: 200 }}
-        placeholder='keyword'
-        value={keyword}
-        onChangeText={text => setKeyword(text)}
-      />
-      <Button title="Find" onPress={getRepositories} />
+      <View style={styles.headerCont}>
+        <text style={styles.header}>Search for recipes based on an ingredient</text>
+      </View>
       <FlatList
-        keyExtractor={(item) => item.idMeal.toString()}
+        style={styles.flatlistCont} keyExtractor={(item) => item.idMeal.toString()}
         renderItem={({ item }) => (
           <View>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>{item.strMeal}</Text>
@@ -42,16 +38,53 @@ export default function App() {
         )}
         data={repositories}
       />
+      <TextInput
+        style={styles.input}
+        placeholder='ingredient?'
+        value={keyword}
+        onChangeText={text => setKeyword(text)}
+      />
+      <View style={styles.buttonCont}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={getRepositories}
+      >
+        <Text style={styles.buttonText}>Find</Text>
+      </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  headerCont: {
+    margin: 40,
+  },
+  header: {
+    color: '#5F7483',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#C3DEF1',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  input: {
+    margin: 50,
+    color: '#5F7483',
+    textAlign: 'center',
+  },
+  flatlistCont: {
     margin: 30,
   },
+  buttonCont: {
+    marginBottom: 50,
+  },
+  button: {
+    backgroundColor: '#96AFC1',
+    padding: 10,
+  },
+  buttonText: {
+    color: '#5F7483',
+  }
 });
